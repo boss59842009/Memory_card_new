@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import Qt
 from random import choice, shuffle
+from time import sleep
 
 app = QApplication([])
 
@@ -39,9 +40,11 @@ questions = [q1, q2, q3, q4]
 
 
 def new_question():
+    global cur_quest
     cur_quest = choice(questions)
     lbl_question.setText(cur_quest.question)
-    lbl_result.setText(cur_quest.answer)
+    lbl_correct.setText(cur_quest.answer)
+
 
     shuffle(radio_buttons)
     radio_buttons[0].setText(cur_quest.wrong_ans1)
@@ -51,5 +54,46 @@ def new_question():
 
 
 new_question()
+
+def check():
+    RadioGroup.setExclusive(False)
+    for answer in radio_buttons:
+        if answer.isChecked():
+            if answer.text() == lbl_correct.text():
+                cur_quest.got_right()
+                lbl_result.setText("Правильно!")
+                answer.setChecked(False)
+                break
+    else:
+        lbl_result.setText("Не правильно!")
+        cur_quest.got_wrong()
+    RadioGroup.setExclusive(True)
+
+
+def switch_screen():
+    if btn_ok.text() == 'Відповісти':
+        check()
+        RadioGroupBox.hide()
+        AnsGroupBox.show()
+
+        btn_ok.setText("Наступне запитання")
+    else:
+        new_question()
+        AnsGroupBox.hide()
+        RadioGroupBox.show()
+
+        btn_ok.setText('Відповісти')
+
+
+def rest():
+    card_win.hide()
+    n = box_min.value() * 60
+    sleep(n)
+    card_win.show()
+
+
+btn_ok.clicked.connect(switch_screen)
+btn_sleep.clicked.connect(rest)
+
 card_win.show()
 app.exec_()
