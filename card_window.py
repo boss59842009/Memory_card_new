@@ -82,3 +82,4 @@ card_layout.addLayout(line4)
 
 
 card_win.setLayout(card_layout)
+card_win.resize(550, 450)
