@@ -22,7 +22,7 @@ btn_add_quest = QPushButton("Додати запитання")
 btn_clear = QPushButton("Очистити")
 
 lbl_statistics = QLabel("Статистика")
-lbl_statistics.setStyleSheet("font-size: 20px; font_weight: bold;")
+lbl_statistics.setStyleSheet("font-size: 20px; font-weight: bold;")
 
 lbl_stat = QLabel()
 
